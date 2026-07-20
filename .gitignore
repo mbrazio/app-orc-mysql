@@ -31,10 +31,8 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files
-.env.local
-.env*.local
-!.env
+# env files (ignorar arquivos .env e manter apenas a template .env.example)
+.env*
 !.env.example
 
 # vercel
