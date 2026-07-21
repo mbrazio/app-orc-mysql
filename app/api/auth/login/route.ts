@@ -38,8 +38,10 @@ export async function POST(request: Request) {
     await setSessionCookie(token)
 
     return NextResponse.json({ user: { id: user.id, name: user.name, email: user.email } })
-  } catch (error) {
+  } catch (error: unknown) {
+    const err = error as { message?: string }
     console.error('Erro no login:', error)
-    return NextResponse.json({ message: 'Erro interno no servidor' }, { status: 500 })
+    const detailMsg = err?.message ? `: ${err.message}` : ''
+    return NextResponse.json({ message: `Erro interno no servidor${detailMsg}` }, { status: 500 })
   }
 }

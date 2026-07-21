@@ -66,8 +66,13 @@ export async function POST(request: Request) {
     await setSessionCookie(token)
 
     return NextResponse.json({ user: { id: userId, name, email } })
-  } catch (error) {
+  } catch (error: unknown) {
+    const err = error as { message?: string; code?: string }
     console.error('Erro no cadastro:', error)
-    return NextResponse.json({ message: 'Erro ao cadastrar usuário' }, { status: 500 })
+    const detailMsg = err?.message ? `: ${err.message}` : ''
+    return NextResponse.json(
+      { message: `Erro ao cadastrar usuário${detailMsg}` },
+      { status: 500 }
+    )
   }
 }
